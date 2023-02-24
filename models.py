@@ -6,7 +6,7 @@ class Band(models.Model):
     email = models.EmailField(max_length=200)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
-    GENRE_CHOICES = [
+    GENRE_CHOICES = (
         ('Rock', 'Rock'),
         ('Pop', 'Pop'),
         ('Jazz', 'Jazz'),
@@ -20,7 +20,7 @@ class Band(models.Model):
         ('Folk', 'Folk'),
         ('Blues', 'Blues'),
         ('World Music', 'World Music'),
-    ]
+    )
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True)
 
     def __str__(self):
@@ -32,11 +32,11 @@ class Venue(models.Model):
     email = models.EmailField()
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
-    MUSIC_TYPES = [
+    MUSIC_TYPES = (
         ('Original Music', 'Original Music'),
         ('Covers', 'Covers'),
         ('Both', 'Both'),
-    ]
+    )
     type_of_music = models.CharField(max_length=50, choices=MUSIC_TYPES)
 
     def __str__(self):

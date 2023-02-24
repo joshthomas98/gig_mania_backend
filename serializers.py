@@ -3,6 +3,8 @@ from .models import Band, Venue
 
 
 class BandSerializer(serializers.ModelSerializer):
+    genre = serializers.ChoiceField(choices=Band.GENRE_CHOICES)
+
     class Meta:
         model = Band
         fields = ['id', 'band_name', 'email', 'username',
@@ -10,6 +12,8 @@ class BandSerializer(serializers.ModelSerializer):
 
 
 class VenueSerializer(serializers.ModelSerializer):
+    type_of_music = serializers.ChoiceField(choices=Venue.MUSIC_TYPES)
+
     class Meta:
         model = Venue
         fields = ['id', 'venue_name', 'email', 'username',

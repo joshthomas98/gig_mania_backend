@@ -15,11 +15,13 @@ def band_list(request, format=None):
         serializer = BandSerializer(bands, many=True)
         return Response(serializer.data)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         serializer = BandSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -39,7 +41,8 @@ def band_detail(request, id, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         band.delete()
@@ -56,11 +59,13 @@ def venue_list(request, format=None):
         serializer = VenueSerializer(venues, many=True)
         return Response(serializer.data)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         serializer = VenueSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -80,7 +85,8 @@ def venue_detail(request, id, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         venue.delete()
