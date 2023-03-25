@@ -1,8 +1,10 @@
-from .models import Band, Venue
-from .serializers import BandSerializer, VenueSerializer
+from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from .models import Band, Venue
+from .serializers import BandSerializer, VenueSerializer
 
 
 # Band View
@@ -91,3 +93,15 @@ def venue_detail(request, id, format=None):
     elif request.method == 'DELETE':
         venue.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def validate_band_user(request, format=None):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    band = authenticate(request=request, username=email, password=password)
+    if band is not None:
+        login(request, band)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
