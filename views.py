@@ -99,7 +99,7 @@ def venue_detail(request, id, format=None):
 def validate_band_user(request, format=None):
     email = request.data.get('email')
     password = request.data.get('password')
-    band = authenticate(request=request, username=email, password=password)
+    band = authenticate(request, email=email, password=password)
     if band is not None:
         login(request, band)
         return Response(status=status.HTTP_200_OK)
