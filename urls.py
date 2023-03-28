@@ -10,7 +10,7 @@ urlpatterns = [
     path('bands/<int:id>', views.band_detail),
     path('venues/', views.venue_list),
     path('venues/<int:id>', views.venue_detail),
-    path('bands/validate/<str:email>/<str:password>/', views.validate_band_user),
+    path('login/', views.validate_band_user),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
