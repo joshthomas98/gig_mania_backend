@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Band, Venue
+from .models import Band, Venue, ArtistListedGig
 
 
 class BandSerializer(serializers.ModelSerializer):
@@ -18,3 +18,15 @@ class VenueSerializer(serializers.ModelSerializer):
         model = Venue
         fields = ['id', 'venue_name', 'email', 'username',
                   'password', 'type_of_music']
+
+
+class ArtistListedGigSerializer(serializers.ModelSerializer):
+    country_of_venue = serializers.ChoiceField(
+        choices=ArtistListedGig.UK_COUNTRIES)
+    genre_of_gig = serializers.ChoiceField(
+        choices=ArtistListedGig.GENRE_CHOICES)
+
+    class Meta:
+        model = ArtistListedGig
+        fields = ['id', 'artist_name', 'date_of_gig', 'country_of_venue', 'venue_name',
+                  'genre_of_gig', 'payment']

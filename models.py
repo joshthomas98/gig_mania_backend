@@ -41,3 +41,37 @@ class Venue(models.Model):
 
     def __str__(self):
         return self.venue_name
+
+
+class ArtistListedGig(models.Model):
+    artist_name = models.CharField(max_length=100)
+    date_of_gig = models.DateField(null=True)
+    UK_COUNTRIES = (
+        ('England', 'England'),
+        ('Wales', 'Wales'),
+        ('Scotland', 'Scotland'),
+        ('Northern Ireland', 'Northern Ireland'),
+    )
+    country_of_venue = models.CharField(max_length=100, choices=UK_COUNTRIES)
+    venue_name = models.CharField(max_length=100)
+    GENRE_CHOICES = (
+        ('Rock', 'Rock'),
+        ('Pop', 'Pop'),
+        ('Jazz', 'Jazz'),
+        ('Country', 'Country'),
+        ('Hip Hop', 'Hip Hop'),
+        ('R&B', 'R&B'),
+        ('Electronic', 'Electronic'),
+        ('Classical', 'Classical'),
+        ('Reggae', 'Reggae'),
+        ('Metal', 'Metal'),
+        ('Folk', 'Folk'),
+        ('Blues', 'Blues'),
+        ('World Music', 'World Music'),
+    )
+    genre_of_gig = models.CharField(
+        max_length=50, choices=GENRE_CHOICES, null=True)
+    payment = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.artist_name + ' - ' + self.venue_name

@@ -1,10 +1,10 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Band, Venue
-from .serializers import BandSerializer, VenueSerializer
+from .models import Band, Venue, ArtistListedGig
+from .serializers import BandSerializer, VenueSerializer, ArtistListedGigSerializer
 
 
 # Band View
@@ -95,8 +95,10 @@ def venue_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# VALIDATE USER VIEW
+
 @api_view(['POST'])
-def validate_band_user(request, format=None):
+def validate_band_user(request):
     email = request.data.get('email')
     password = request.data.get('password')
     band = authenticate(request, email=email, password=password)
@@ -105,3 +107,48 @@ def validate_band_user(request, format=None):
         return Response(status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+# ArtistListedGig VIEW
+
+@api_view(['GET', 'POST'])
+def artist_listed_gig_list(request, format=None):
+
+    if request.method == 'GET':
+        artist_listed_gigs = ArtistListedGig.objects.all()
+        serializer = ArtistListedGigSerializer(artist_listed_gigs, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ArtistListedGigSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def artist_listed_gig_detail(request, id, format=None):
+
+    try:
+        artist_listed_gig = ArtistListedGig.objects.get(pk=id)
+    except ArtistListedGig.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ArtistListedGigSerializer(artist_listed_gig)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ArtistListedGigSerializer(
+            artist_listed_gig, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        artist_listed_gig.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
