@@ -74,4 +74,6 @@ class ArtistListedGig(models.Model):
     payment = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.artist_name + ' - ' + self.venue_name
+        date_str = self.date_of_gig.strftime(
+            '%d %b %Y') if self.date_of_gig else ''
+        return f"{self.artist_name} - {self.venue_name} - {date_str}"
