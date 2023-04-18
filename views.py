@@ -3,8 +3,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Band, Venue, ArtistListedGig
-from .serializers import BandSerializer, VenueSerializer, ArtistListedGigSerializer
+from .models import Band, Availability, Venue, ArtistListedGig
+from .serializers import BandSerializer, AvailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
 
 
 # Band View
@@ -48,6 +48,49 @@ def band_detail(request, id, format=None):
 
     elif request.method == 'DELETE':
         band.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#Availability View
+
+@api_view(['GET', 'POST'])
+def availability_list(request, format=None):
+
+    if request.method == 'GET':
+        availabilities = Availability.objects.all()
+        serializer = AvailabilitySerializer(availabilities, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = AvailabilitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def availability_detail(request, id, format=None):
+    try:
+        availability = Availability.objects.filter(band_id=id)
+    except Availability.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AvailabilitySerializer(availability, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = AvailabilitySerializer(availability, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        availability.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -97,16 +140,22 @@ def venue_detail(request, id, format=None):
 
 # VALIDATE USER VIEW
 
-@api_view(['POST'])
-def validate_band_user(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-    band = authenticate(request, email=email, password=password)
-    if band is not None:
-        login(request, band)
-        return Response(status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+def band_sign_in(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        try:
+            band = Band.objects.get(email=email)
+        except Band.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+        user = authenticate(request, email=band.email, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+
 
 
 # ArtistListedGig VIEW

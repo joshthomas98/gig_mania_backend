@@ -1,30 +1,24 @@
 from django.db import models
-
+from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, MUSIC_TYPES
 
 class Band(models.Model):
     band_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=200)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
-    GENRE_CHOICES = (
-        ('Rock', 'Rock'),
-        ('Pop', 'Pop'),
-        ('Jazz', 'Jazz'),
-        ('Country', 'Country'),
-        ('Hip Hop', 'Hip Hop'),
-        ('R&B', 'R&B'),
-        ('Electronic', 'Electronic'),
-        ('Classical', 'Classical'),
-        ('Reggae', 'Reggae'),
-        ('Metal', 'Metal'),
-        ('Folk', 'Folk'),
-        ('Blues', 'Blues'),
-        ('World Music', 'World Music'),
-    )
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True)
+    country = models.CharField(max_length=50, choices=UK_COUNTRY_CHOICES, null=True)
+    county = models.CharField(max_length=100, choices=UK_COUNTY_CHOICES, null=True)
 
     def __str__(self):
         return self.band_name
+
+class Availability(models.Model):
+    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='availabilities')
+    date = models.DateField()
+
+    def __str__(self):
+        return str(self.date)
 
 
 class Venue(models.Model):
@@ -32,12 +26,7 @@ class Venue(models.Model):
     email = models.EmailField(max_length=200)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
-    MUSIC_TYPES = (
-        ('Original Music', 'Original Music'),
-        ('Covers', 'Covers'),
-        ('Both', 'Both'),
-    )
-    type_of_music = models.CharField(max_length=50, choices=MUSIC_TYPES)
+    type_of_music = models.CharField(max_length=100, choices=MUSIC_TYPES, null=True)
 
     def __str__(self):
         return self.venue_name
@@ -46,31 +35,9 @@ class Venue(models.Model):
 class ArtistListedGig(models.Model):
     artist_name = models.CharField(max_length=100)
     date_of_gig = models.DateField(null=True)
-    UK_COUNTRIES = (
-        ('England', 'England'),
-        ('Wales', 'Wales'),
-        ('Scotland', 'Scotland'),
-        ('Northern Ireland', 'Northern Ireland'),
-    )
-    country_of_venue = models.CharField(max_length=100, choices=UK_COUNTRIES)
+    country_of_venue = models.CharField(max_length=100, choices=UK_COUNTRY_CHOICES)
     venue_name = models.CharField(max_length=100)
-    GENRE_CHOICES = (
-        ('Rock', 'Rock'),
-        ('Pop', 'Pop'),
-        ('Jazz', 'Jazz'),
-        ('Country', 'Country'),
-        ('Hip Hop', 'Hip Hop'),
-        ('R&B', 'R&B'),
-        ('Electronic', 'Electronic'),
-        ('Classical', 'Classical'),
-        ('Reggae', 'Reggae'),
-        ('Metal', 'Metal'),
-        ('Folk', 'Folk'),
-        ('Blues', 'Blues'),
-        ('World Music', 'World Music'),
-    )
-    genre_of_gig = models.CharField(
-        max_length=50, choices=GENRE_CHOICES, null=True)
+    genre_of_gig = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True)
     payment = models.IntegerField(null=True)
 
     def __str__(self):
