@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -138,24 +140,17 @@ def venue_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# VALIDATE USER VIEW
+# VALIDATE BAND USER VIEW
 
+@api_view(['POST'])
 def band_sign_in(request):
-    if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        try:
-            band = Band.objects.get(email=email)
-        except Band.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
-        user = authenticate(request, email=band.email, password=password)
+    email = request.data.get('email')
+    password = request.data.get('password')
 
-        if user is not None:
-            login(request, user)
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+    band = get_object_or_404(Band, email=email, password=password)
+    serializer = BandSerializer(band)
 
+    return Response({'id': band.id})
 
 
 # ArtistListedGig VIEW
