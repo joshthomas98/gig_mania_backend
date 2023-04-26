@@ -6,6 +6,7 @@ class Band(models.Model):
     email = models.EmailField(max_length=200)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
+    bio = models.CharField(max_length=5000, null=True)
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True)
     country = models.CharField(max_length=50, choices=UK_COUNTRY_CHOICES, null=True)
     county = models.CharField(max_length=100, choices=UK_COUNTY_CHOICES, null=True)

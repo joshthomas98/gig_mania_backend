@@ -7,7 +7,7 @@ class BandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Band
         fields = ['id', 'band_name', 'email', 'username',
-                  'password', 'genre', 'country', 'county']
+                  'password', 'bio', 'genre', 'country', 'county']
 
 
 class AvailabilitySerializer(serializers.ModelSerializer):
