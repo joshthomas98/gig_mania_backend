@@ -16,6 +16,7 @@ urlpatterns = [
     path('venues/<int:id>/', views.venue_detail),
 
     path('bands/validate/', views.band_sign_in),
+    path('venues/validate/', views.venue_sign_in),
 
     path('artist_listed_gigs/', views.artist_listed_gig_list),
     path('artist_listed_gigs/<int:id>/', views.artist_listed_gig_detail),

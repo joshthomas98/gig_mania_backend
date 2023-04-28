@@ -153,6 +153,19 @@ def band_sign_in(request):
     return Response({'id': band.id})
 
 
+# VALIDATE VENUE USER VIEW
+
+@api_view(['POST'])
+def venue_sign_in(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    venue = get_object_or_404(Venue, email=email, password=password)
+    serializer = VenueSerializer(venue)
+
+    return Response({'id': venue.id})
+
+
 # ArtistListedGig VIEW
 
 @api_view(['GET', 'POST'])
