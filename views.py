@@ -53,7 +53,7 @@ def band_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-#Availability View
+# Availability View
 
 @api_view(['GET', 'POST'])
 def availability_list(request, format=None):
