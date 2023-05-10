@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'gig_mania_backend',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

@@ -6,8 +6,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('bands/', views.band_list),
-    path('bands/<int:id>/', views.band_detail),
+    path('artists/', views.artist_list),
+    path('artists/<int:id>/', views.artist_detail),
 
     path('availabilities/', views.availability_list),
     path('availabilities/<int:id>/', views.availability_detail),
@@ -15,7 +15,7 @@ urlpatterns = [
     path('venues/', views.venue_list),
     path('venues/<int:id>/', views.venue_detail),
 
-    path('bands/validate/', views.band_sign_in),
+    path('artists/validate/', views.artist_sign_in),
     path('venues/validate/', views.venue_sign_in),
 
     path('artist_listed_gigs/', views.artist_listed_gig_list),

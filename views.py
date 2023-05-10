@@ -5,22 +5,22 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Band, Availability, Venue, ArtistListedGig
-from .serializers import BandSerializer, AvailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
+from .models import Artist, Availability, Venue, ArtistListedGig
+from .serializers import ArtistSerializer, AvailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
 
 
-# Band View
+# Artist View
 
 @api_view(['GET', 'POST'])
-def band_list(request, format=None):
+def artist_list(request, format=None):
 
     if request.method == 'GET':
-        bands = Band.objects.all()
-        serializer = BandSerializer(bands, many=True)
+        artists = Artist.objects.all()
+        serializer = ArtistSerializer(artists, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = BandSerializer(data=request.data)
+        serializer = ArtistSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -29,19 +29,19 @@ def band_list(request, format=None):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def band_detail(request, id, format=None):
+def artist_detail(request, id, format=None):
 
     try:
-        band = Band.objects.get(pk=id)
-    except Band.DoesNotExist:
+        artist = Artist.objects.get(pk=id)
+    except Artist.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = BandSerializer(band)
+        serializer = ArtistSerializer(artist)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = BandSerializer(band, data=request.data)
+        serializer = ArtistSerializer(artist, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -49,7 +49,7 @@ def band_detail(request, id, format=None):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        band.delete()
+        artist.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -75,7 +75,7 @@ def availability_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 def availability_detail(request, id, format=None):
     try:
-        availability = Availability.objects.filter(band_id=id)
+        availability = Availability.objects.filter(artist_id=id)
     except Availability.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -140,17 +140,17 @@ def venue_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# VALIDATE BAND USER VIEW
+# VALIDATE ARTIST USER VIEW
 
 @api_view(['POST'])
-def band_sign_in(request):
+def artist_sign_in(request):
     email = request.data.get('email')
     password = request.data.get('password')
 
-    band = get_object_or_404(Band, email=email, password=password)
-    serializer = BandSerializer(band)
+    artist = get_object_or_404(Artist, email=email, password=password)
+    serializer = ArtistSerializer(artist)
 
-    return Response({'id': band.id})
+    return Response({'id': artist.id})
 
 
 # VALIDATE VENUE USER VIEW

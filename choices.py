@@ -143,3 +143,8 @@ MUSIC_TYPES = (
     ('Covers', 'Covers'),
     ('Both', 'Both'),
 )
+
+GIGGING_DISTANCE = (
+    ('Original Music', 'Original Music'),
+    ('Nationwide - All of UK', 'Nationwide - All of UK'),
+)

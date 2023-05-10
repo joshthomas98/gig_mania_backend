@@ -1,20 +1,24 @@
 from rest_framework import serializers
-from .models import Band, Availability, Venue, ArtistListedGig
+from django import forms
+from .models import Artist, Availability, Venue, ArtistListedGig
+from .choices import UK_COUNTY_CHOICES
 
 
-class BandSerializer(serializers.ModelSerializer):
+class ArtistSerializer(serializers.ModelSerializer):
+    gigging_distance = serializers.MultipleChoiceField(
+        choices=UK_COUNTY_CHOICES, required=False)
 
     class Meta:
-        model = Band
-        fields = ['id', 'band_name', 'email', 'username',
-                  'password', 'bio', 'genre', 'country', 'county']
+        model = Artist
+        fields = ['id', 'artist_name', 'email', 'username',
+                  'password', 'bio', 'genre', 'country', 'county', 'gigging_distance']
 
 
 class AvailabilitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Availability
-        fields = ['id', 'band', 'date']
+        fields = ['id', 'artist', 'date']
 
 
 class VenueSerializer(serializers.ModelSerializer):
