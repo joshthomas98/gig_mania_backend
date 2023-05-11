@@ -5,8 +5,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Artist, Availability, Venue, ArtistListedGig
-from .serializers import ArtistSerializer, AvailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
+from .models import Artist, Unavailability, Venue, ArtistListedGig
+from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
+from django.db.models import Q
+import json
 
 
 # Artist View
@@ -53,18 +55,18 @@ def artist_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# Availability View
+# Unavailability View
 
 @api_view(['GET', 'POST'])
-def availability_list(request, format=None):
+def unavailability_list(request, format=None):
 
     if request.method == 'GET':
-        availabilities = Availability.objects.all()
-        serializer = AvailabilitySerializer(availabilities, many=True)
+        unavailabilities = Unavailability.objects.all()
+        serializer = UnavailabilitySerializer(unavailabilities, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = AvailabilitySerializer(data=request.data)
+        serializer = UnavailabilitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -73,18 +75,19 @@ def availability_list(request, format=None):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def availability_detail(request, id, format=None):
+def unavailability_detail(request, id, format=None):
     try:
-        availability = Availability.objects.filter(artist_id=id)
-    except Availability.DoesNotExist:
+        unavailability = Unavailability.objects.filter(artist_id=id)
+    except Unavailability.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = AvailabilitySerializer(availability, many=True)
+        serializer = UnavailabilitySerializer(unavailability, many=True)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = AvailabilitySerializer(availability, data=request.data)
+        serializer = UnavailabilitySerializer(
+            unavailability, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -92,7 +95,7 @@ def availability_detail(request, id, format=None):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        availability.delete()
+        unavailability.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -209,3 +212,24 @@ def artist_listed_gig_detail(request, id, format=None):
     elif request.method == 'DELETE':
         artist_listed_gig.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# SEARCH FOR ARTISTS VIEW
+
+@api_view(['POST'])
+def artist_search(request):
+    date_of_gig = request.data.get('date_of_gig')
+    genre = request.data.get('genre')
+    type_of_artist = request.data.get('type_of_artist')
+    country = request.data.get('country')
+
+    result = list(Artist.objects.filter(
+        ~Q(unavailabilities__date=date_of_gig),
+        genre=genre,
+        type_of_artist=type_of_artist,
+        country=country
+    ).values())
+
+    json_result = json.dumps(result)
+
+    return Response(result)

@@ -138,13 +138,95 @@ UK_COUNTY_CHOICES = (
     )),
 )
 
+GIGGING_DISTANCE = (
+    ('England', (
+        ('South East', 'South East'),
+        ('South West', 'South West'),
+        ('London', 'London'),
+        ('East of England', 'East of England'),
+        ('West Midlands', 'West Midlands'),
+        ('East Midlands', 'East Midlands'),
+        ('Yorkshire and the Humber', 'Yorkshire and the Humber'),
+        ('North West', 'North West'),
+        ('North East', 'North East'),
+    )),
+    ('Scotland', (
+        ('Highlands and Islands', 'Highlands and Islands'),
+        ('North East Scotland', 'North East Scotland'),
+        ('Central Belt', 'Central Belt'),
+        ('South West Scotland', 'South West Scotland'),
+    )),
+    ('Wales', (
+        ('North Wales', 'North Wales'),
+        ('Mid Wales', 'Mid Wales'),
+        ('South West Wales', 'South West Wales'),
+        ('South East Wales', 'South East Wales'),
+    )),
+    ('Northern Ireland', (
+        ('Antrim Coast and Glens', 'Antrim Coast and Glens'),
+        ('Belfast', 'Belfast'),
+        ('The Causeway Coast', 'The Causeway Coast'),
+        ('County Armagh', 'County Armagh'),
+        ('County Down', 'County Down'),
+        ('Fermanagh Lakelands', 'Fermanagh Lakelands'),
+        ('Lough Neagh', 'Lough Neagh'),
+        ('Sperrin Mountains', 'Sperrin Mountains'),
+        ('The Mournes', 'The Mournes'),
+    )),
+    ('All Counties', (
+        ('Nationwide', 'Nationwide'),
+    )),
+)
+
 MUSIC_TYPES = (
     ('Original Music', 'Original Music'),
     ('Covers', 'Covers'),
     ('Both', 'Both'),
 )
 
+ARTIST_TYPES = (
+    ('Full band', 'Full band'),
+    ('Solo artist', 'Solo artist'),
+    ('Duo', 'Duo'),
+    ('Any', 'Any'),
+)
+
 GIGGING_DISTANCE = (
-    ('Original Music', 'Original Music'),
-    ('Nationwide - All of UK', 'Nationwide - All of UK'),
+    ('England', (
+        ('South East', 'South East'),
+        ('South West', 'South West'),
+        ('London', 'London'),
+        ('East of England', 'East of England'),
+        ('West Midlands', 'West Midlands'),
+        ('East Midlands', 'East Midlands'),
+        ('Yorkshire and the Humber', 'Yorkshire and the Humber'),
+        ('North West', 'North West'),
+        ('North East', 'North East'),
+    )),
+    ('Scotland', (
+        ('Highlands and Islands', 'Highlands and Islands'),
+        ('North East Scotland', 'North East Scotland'),
+        ('Central Belt', 'Central Belt'),
+        ('South West Scotland', 'South West Scotland'),
+    )),
+    ('Wales', (
+        ('North Wales', 'North Wales'),
+        ('Mid Wales', 'Mid Wales'),
+        ('South West Wales', 'South West Wales'),
+        ('South East Wales', 'South East Wales'),
+    )),
+    ('Northern Ireland', (
+        ('Antrim Coast and Glens', 'Antrim Coast and Glens'),
+        ('Belfast', 'Belfast'),
+        ('The Causeway Coast', 'The Causeway Coast'),
+        ('County Armagh', 'County Armagh'),
+        ('County Down', 'County Down'),
+        ('Fermanagh Lakelands', 'Fermanagh Lakelands'),
+        ('Lough Neagh', 'Lough Neagh'),
+        ('Sperrin Mountains', 'Sperrin Mountains'),
+        ('The Mournes', 'The Mournes'),
+    )),
+    ('All Counties', (
+        ('Nationwide', 'Nationwide'),
+    )),
 )

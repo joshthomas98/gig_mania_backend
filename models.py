@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, MUSIC_TYPES
+from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, MUSIC_TYPES, ARTIST_TYPES, GIGGING_DISTANCE
 from multiselectfield import MultiSelectField
 
 
@@ -14,20 +14,22 @@ class Artist(models.Model):
         max_length=50, choices=UK_COUNTRY_CHOICES, null=True)
     county = models.CharField(
         max_length=100, choices=UK_COUNTY_CHOICES, null=True)
+    type_of_artist = models.CharField(
+        max_length=50, choices=ARTIST_TYPES, null=True)
     gigging_distance = MultiSelectField(
-        choices=UK_COUNTY_CHOICES, blank=True, max_length=200)
+        choices=GIGGING_DISTANCE, blank=True, max_length=200)
 
     def __str__(self):
         return self.artist_name
 
 
-class Availability(models.Model):
+class Unavailability(models.Model):
     artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE, related_name='availabilities')
+        Artist, on_delete=models.CASCADE, related_name='unavailabilities')
     date = models.DateField()
 
     def __str__(self):
-        return str(self.date)
+        return f"{self.artist} - {self.date}"
 
 
 class Venue(models.Model):

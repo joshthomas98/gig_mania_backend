@@ -9,8 +9,8 @@ urlpatterns = [
     path('artists/', views.artist_list),
     path('artists/<int:id>/', views.artist_detail),
 
-    path('availabilities/', views.availability_list),
-    path('availabilities/<int:id>/', views.availability_detail),
+    path('unavailabilities/', views.unavailability_list),
+    path('unavailabilities/<int:id>/', views.unavailability_detail),
 
     path('venues/', views.venue_list),
     path('venues/<int:id>/', views.venue_detail),
@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('artist_listed_gigs/', views.artist_listed_gig_list),
     path('artist_listed_gigs/<int:id>/', views.artist_listed_gig_detail),
+
+    path('artist_search/', views.artist_search),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
