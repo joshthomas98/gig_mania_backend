@@ -226,7 +226,7 @@ GIGGING_DISTANCE = (
         ('Sperrin Mountains', 'Sperrin Mountains'),
         ('The Mournes', 'The Mournes'),
     )),
-    ('All Counties', (
+    ('All Regions', (
         ('Nationwide', 'Nationwide'),
     )),
 )
