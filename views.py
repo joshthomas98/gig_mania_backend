@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Artist, Unavailability, Venue, ArtistListedGig
-from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer
+from .models import Artist, Unavailability, Venue, ArtistListedGig, NewsletterSignup
+from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer, NewsletterSignupSerializer
 from django.db.models import Q
 import json
 
@@ -76,6 +76,7 @@ def unavailability_list(request, format=None):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def unavailability_detail(request, id, format=None):
+
     try:
         unavailability = Unavailability.objects.filter(artist_id=id)
     except Unavailability.DoesNotExist:
@@ -218,6 +219,7 @@ def artist_listed_gig_detail(request, id, format=None):
 
 @api_view(['POST'])
 def artist_search(request):
+
     date_of_gig = request.data.get('date_of_gig')
     genre = request.data.get('genre')
     type_of_artist = request.data.get('type_of_artist')
@@ -233,3 +235,48 @@ def artist_search(request):
     json_result = json.dumps(result)
 
     return Response(result)
+
+
+# NewsletterSignup View
+
+@api_view(['GET', 'POST'])
+def newsletter_signup_list(request, format=None):
+
+    if request.method == 'GET':
+        newsletter_signups = NewsletterSignup.objects.all()
+        serializer = NewsletterSignupSerializer(newsletter_signups, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = NewsletterSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def newsletter_signup_detail(request, id, format=None):
+
+    try:
+        newsletter_signup = NewsletterSignup.objects.get(pk=id)
+    except NewsletterSignup.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = NewsletterSignupSerializer(newsletter_signup)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = NewsletterSignupSerializer(
+            newsletter_signup, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        newsletter_signup.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

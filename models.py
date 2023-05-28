@@ -60,3 +60,10 @@ class ArtistListedGig(models.Model):
         date_str = self.date_of_gig.strftime(
             '%d %b %Y') if self.date_of_gig else ''
         return f"{self.artist_name} - {self.venue_name} - {date_str}"
+
+
+class NewsletterSignup(models.Model):
+    email = models.EmailField(max_length=200)
+
+    def __str__(self):
+        return self.email
