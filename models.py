@@ -17,7 +17,9 @@ class Artist(models.Model):
         max_length=100, choices=UK_COUNTY_CHOICES, null=True)
     type_of_artist = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
-    image = models.ImageField(upload_to='artist_images/', null=True)
+    image = models.ImageField(
+        upload_to='artist_images/', null=True, blank=True)
+    featured_artist = models.BooleanField(default=False)
     gigging_distance = MultiSelectField(
         choices=GIGGING_DISTANCE, blank=True, max_length=200)
 

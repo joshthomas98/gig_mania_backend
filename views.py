@@ -280,3 +280,12 @@ def newsletter_signup_detail(request, id, format=None):
     elif request.method == 'DELETE':
         newsletter_signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Featured Artist View
+
+@api_view(['GET'])
+def featured_artist_list(request, format=None):
+    featured_artist = Artist.objects.filter(featured_artist=True)
+    serializer = ArtistSerializer(featured_artist, many=True)
+    return Response(serializer.data)

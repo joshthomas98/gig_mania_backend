@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('newslettersignups/', views.newsletter_signup_list),
     path('newslettersignups/<int:id>/', views.newsletter_signup_detail),
+
+    path('featuredartists/', views.featured_artist_list),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
