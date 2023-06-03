@@ -11,7 +11,7 @@ class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ['id', 'artist_name', 'email', 'username', 'password', 'bio', 'summary', 'genre',
-                  'country', 'county', 'type_of_artist', 'image', 'featured_artist', 'gigging_distance']
+                  'country', 'county', 'type_of_artist', 'image', 'featured_artist', 'facebook', 'twitter', 'youtube', 'gigging_distance']
 
 
 class UnavailabilitySerializer(serializers.ModelSerializer):

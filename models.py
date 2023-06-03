@@ -9,7 +9,7 @@ class Artist(models.Model):
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
     bio = models.CharField(max_length=5000, null=True)
-    summary = models.CharField(max_length=80, null=True)
+    summary = models.CharField(max_length=100, null=True)
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True)
     country = models.CharField(
         max_length=50, choices=UK_COUNTRY_CHOICES, null=True)
@@ -18,8 +18,11 @@ class Artist(models.Model):
     type_of_artist = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
     image = models.ImageField(
-        upload_to='artist_images/', null=True, blank=True)
+        upload_to='user_profile_images/artist_profile_images/', null=True, blank=True)
     featured_artist = models.BooleanField(default=False)
+    facebook = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
+    youtube = models.URLField(null=True, blank=True)
     gigging_distance = MultiSelectField(
         choices=GIGGING_DISTANCE, blank=True, max_length=200)
 
@@ -41,6 +44,8 @@ class Venue(models.Model):
     email = models.EmailField(max_length=200)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
+    image = models.ImageField(
+        upload_to='user_profile_images/venue_profile_images/', null=True, blank=True)
     type_of_music = models.CharField(
         max_length=100, choices=MUSIC_TYPES, null=True)
 
