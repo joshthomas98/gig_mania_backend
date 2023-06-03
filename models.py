@@ -6,7 +6,6 @@ from multiselectfield import MultiSelectField
 class Artist(models.Model):
     artist_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=200)
-    username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
     bio = models.CharField(max_length=5000, null=True)
     summary = models.CharField(max_length=100, null=True)
@@ -42,7 +41,6 @@ class Unavailability(models.Model):
 class Venue(models.Model):
     venue_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=200)
-    username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
     image = models.ImageField(
         upload_to='user_profile_images/venue_profile_images/', null=True, blank=True)
