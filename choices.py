@@ -178,7 +178,7 @@ GIGGING_DISTANCE = (
     )),
 )
 
-MUSIC_TYPES = (
+ACT_TYPES = (
     ('Original Music', 'Original Music'),
     ('Covers', 'Covers'),
     ('Both', 'Both'),
@@ -188,7 +188,6 @@ ARTIST_TYPES = (
     ('Full band', 'Full band'),
     ('Solo artist', 'Solo artist'),
     ('Duo', 'Duo'),
-    ('Any', 'Any'),
 )
 
 GIGGING_DISTANCE = (
