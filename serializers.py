@@ -34,7 +34,7 @@ class ArtistListedGigSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtistListedGig
         fields = ['id', 'artist_name', 'date_of_gig', 'country_of_venue', 'venue_name',
-                  'genre_of_gig', 'payment']
+                  'genre_of_gig', 'type_of_gig', 'payment']
 
 
 class NewsletterSignupSerializer(serializers.ModelSerializer):

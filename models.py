@@ -69,6 +69,7 @@ class ArtistListedGig(models.Model):
     venue_name = models.CharField(max_length=100)
     genre_of_gig = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True)
+    type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
     payment = models.IntegerField(null=True)
 
     def __str__(self):
