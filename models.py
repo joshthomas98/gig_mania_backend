@@ -23,6 +23,7 @@ class Artist(models.Model):
     facebook = models.CharField(max_length=5000, null=True, blank=True)
     twitter = models.CharField(max_length=5000, null=True, blank=True)
     youtube = models.CharField(max_length=5000, null=True, blank=True)
+    artist_membership_type = models.IntegerField(null=True)
     gigging_distance = MultiSelectField(
         choices=GIGGING_DISTANCE, blank=True, max_length=200)
 
@@ -56,6 +57,7 @@ class Venue(models.Model):
     facebook = models.CharField(max_length=5000, null=True, blank=True)
     twitter = models.CharField(max_length=5000, null=True, blank=True)
     youtube = models.CharField(max_length=5000, null=True, blank=True)
+    venue_membership_type = models.IntegerField(null=True)
 
     def __str__(self):
         return self.venue_name

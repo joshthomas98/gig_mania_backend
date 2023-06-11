@@ -11,7 +11,7 @@ class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ['id', 'artist_name', 'email', 'password', 'phone_number', 'bio', 'summary', 'genre',
-                  'country', 'county', 'type_of_artist', 'image', 'featured_artist', 'facebook', 'twitter', 'youtube', 'gigging_distance']
+                  'country', 'county', 'type_of_artist', 'image', 'featured_artist', 'facebook', 'twitter', 'youtube', 'artist_membership_type', 'gigging_distance']
 
 
 class UnavailabilitySerializer(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class VenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venue
         fields = ['id', 'venue_name', 'email', 'password', 'phone_number', 'bio',
-                  'country', 'county', 'image', 'type_of_act', 'facebook', 'twitter', 'youtube']
+                  'country', 'county', 'image', 'type_of_act', 'facebook', 'twitter', 'youtube', 'venue_membership_type']
 
 
 class ArtistListedGigSerializer(serializers.ModelSerializer):
