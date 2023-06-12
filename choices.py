@@ -229,3 +229,8 @@ GIGGING_DISTANCE = (
         ('Nationwide', 'Nationwide'),
     )),
 )
+
+USER_TYPES = (
+    ('Artist', 'Artist'),
+    ('Venue', 'Venue'),
+)

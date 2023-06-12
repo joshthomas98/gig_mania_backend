@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Artist, Unavailability, Venue, ArtistListedGig, NewsletterSignup
-from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer, NewsletterSignupSerializer
+from .models import Artist, Unavailability, Venue, ArtistListedGig, NewsletterSignup, MembershipOptions
+from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer
 from django.db.models import Q
 import json
 
@@ -289,3 +289,48 @@ def featured_artist_list(request, format=None):
     featured_artist = Artist.objects.filter(featured_artist=True)
     serializer = ArtistSerializer(featured_artist, many=True)
     return Response(serializer.data)
+
+
+# Membership Options View
+
+@api_view(['GET', 'POST'])
+def membership_option_list(request, format=None):
+
+    if request.method == 'GET':
+        membership_options = MembershipOptions.objects.all()
+        serializer = MembershipOptionsSerializer(membership_options, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = MembershipOptionsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def membership_option_detail(request, id, format=None):
+
+    try:
+        membership_option = MembershipOptions.objects.get(pk=id)
+    except MembershipOptions.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = MembershipOptionsSerializer(membership_option)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = MembershipOptionsSerializer(
+            membership_option, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        membership_option.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

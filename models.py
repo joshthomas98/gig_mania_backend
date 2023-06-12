@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, ACT_TYPES, ARTIST_TYPES, GIGGING_DISTANCE
+from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, ACT_TYPES, ARTIST_TYPES, GIGGING_DISTANCE, USER_TYPES
 from multiselectfield import MultiSelectField
 
 
@@ -85,3 +85,17 @@ class NewsletterSignup(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class MembershipOptions(models.Model):
+    membership_id = models.IntegerField(null=True)
+    type_of_user = models.CharField(
+        max_length=50, choices=USER_TYPES, null=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=5000, null=True)
+    price = models.CharField(max_length=50, null=True)
+    disclosure = models.CharField(max_length=500, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.type_of_user} - {self.title}"

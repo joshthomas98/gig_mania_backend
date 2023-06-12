@@ -29,6 +29,9 @@ urlpatterns = [
     path('newslettersignups/<int:id>/', views.newsletter_signup_detail),
 
     path('featuredartists/', views.featured_artist_list),
+
+    path('membershipoptions/', views.membership_option_list),
+    path('membershipoptions/<int:id>/', views.membership_option_detail),
 ]
 
 if settings.DEBUG:
