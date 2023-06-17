@@ -428,10 +428,10 @@ def gig_search(request):
     payment = request.data.get('payment')
 
     artist_listed_gigs = ArtistListedGig.objects.filter(
-        date_of_gig=date_of_gig, country_of_venue=country_of_venue, genre_of_gig=genre_of_gig, type_of_gig=type_of_gig, payment=payment)
+        date_of_gig=date_of_gig, country_of_venue=country_of_venue, genre_of_gig=genre_of_gig, type_of_gig=type_of_gig, payment__gte=payment)
 
     venue_listed_gigs = VenueListedGig.objects.filter(
-        date_of_gig=date_of_gig, country_of_venue=country_of_venue, genre_of_gig=genre_of_gig, type_of_gig=type_of_gig, payment=payment)
+        date_of_gig=date_of_gig, country_of_venue=country_of_venue, genre_of_gig=genre_of_gig, type_of_gig=type_of_gig, payment__gte=payment)
 
     artist_listed_gig_serializer = ArtistListedGigSerializer(
         artist_listed_gigs, many=True)

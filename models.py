@@ -75,6 +75,8 @@ class ArtistListedGig(models.Model):
     artist_type = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
+    user_type = models.CharField(
+        max_length=50, choices=USER_TYPES, null=True)
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
@@ -91,6 +93,8 @@ class VenueListedGig(models.Model):
         max_length=50, choices=GENRE_CHOICES, null=True)
     type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
     payment = models.IntegerField(null=True)
+    user_type = models.CharField(
+        max_length=50, choices=USER_TYPES, null=True)
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
