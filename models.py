@@ -66,9 +66,27 @@ class Venue(models.Model):
 class ArtistListedGig(models.Model):
     artist_name = models.CharField(max_length=100)
     date_of_gig = models.DateField(null=True)
+    venue_name = models.CharField(max_length=100)
     country_of_venue = models.CharField(
         max_length=100, choices=UK_COUNTRY_CHOICES)
+    genre_of_gig = models.CharField(
+        max_length=50, choices=GENRE_CHOICES, null=True)
+    type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
+    artist_type = models.CharField(
+        max_length=50, choices=ARTIST_TYPES, null=True)
+    payment = models.IntegerField(null=True)
+
+    def __str__(self):
+        date_str = self.date_of_gig.strftime(
+            '%d %b %Y') if self.date_of_gig else ''
+        return f"{self.artist_name} - {self.venue_name} - {date_str}"
+
+
+class VenueListedGig(models.Model):
     venue_name = models.CharField(max_length=100)
+    date_of_gig = models.DateField(null=True)
+    country_of_venue = models.CharField(
+        max_length=100, choices=UK_COUNTRY_CHOICES)
     genre_of_gig = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True)
     type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
@@ -77,7 +95,7 @@ class ArtistListedGig(models.Model):
     def __str__(self):
         date_str = self.date_of_gig.strftime(
             '%d %b %Y') if self.date_of_gig else ''
-        return f"{self.artist_name} - {self.venue_name} - {date_str}"
+        return f"{self.venue_name} - {date_str}"
 
 
 class NewsletterSignup(models.Model):
