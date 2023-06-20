@@ -41,6 +41,13 @@ urlpatterns = [
     # path('venue_listed_gig_search/', views.venue_listed_gig_search),
 
     path('gig_search/', views.gig_search),
+
+    path('artist_written_reviews/', views.artist_written_review_list),
+    path('artist_written_reviews/<int:id>/',
+         views.artist_written_review_detail),
+
+    path('venue_written_reviews/', views.venue_written_review_list),
+    path('venue_written_reviews/<int:id>/', views.venue_written_review_detail),
 ]
 
 if settings.DEBUG:

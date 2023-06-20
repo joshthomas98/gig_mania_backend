@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions
-from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer,  VenueListedGigSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer
+from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview
+from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigSerializer,  VenueListedGigSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer, ArtistWrittenReviewSerializer, VenueWrittenReviewSerializer
 from django.db.models import Q
 import json
 
@@ -444,3 +444,95 @@ def gig_search(request):
     }
 
     return Response(response_data)
+
+
+# Artist Written Review View
+
+@api_view(['GET', 'POST'])
+def artist_written_review_list(request, format=None):
+
+    if request.method == 'GET':
+        artist_written_reviews = ArtistWrittenReview.objects.all()
+        serializer = ArtistWrittenReviewSerializer(
+            artist_written_reviews, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ArtistWrittenReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def artist_written_review_detail(request, id, format=None):
+
+    try:
+        artist_written_review = ArtistWrittenReview.objects.get(pk=id)
+    except ArtistWrittenReview.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ArtistWrittenReviewSerializer(artist_written_review)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ArtistWrittenReviewSerializer(
+            artist_written_review, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        artist_written_review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Venue Written Review View
+
+@api_view(['GET', 'POST'])
+def venue_written_review_list(request, format=None):
+
+    if request.method == 'GET':
+        venue_written_reviews = VenueWrittenReview.objects.all()
+        serializer = VenueWrittenReviewSerializer(
+            venue_written_reviews, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = VenueWrittenReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def venue_written_review_detail(request, id, format=None):
+
+    try:
+        venue_written_review = VenueWrittenReview.objects.get(pk=id)
+    except VenueWrittenReview.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = VenueWrittenReviewSerializer(venue_written_review)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = VenueWrittenReviewSerializer(
+            venue_written_review, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        venue_written_review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

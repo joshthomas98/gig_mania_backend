@@ -121,3 +121,25 @@ class MembershipOptions(models.Model):
 
     def __str__(self):
         return f"{self.type_of_user} - {self.title}"
+
+
+class ArtistWrittenReview(models.Model):
+    date_of_performance = models.DateField(null=True)
+    artist_name = models.CharField(max_length=100, null=True)
+    venue_name = models.CharField(max_length=100, null=True)
+    review = models.TextField(max_length=10000, null=True)
+    rating = models.IntegerField(null=True)
+
+    def __str__(self):
+        return f"{self.artist_name} || {self.venue_name} || {self.date_of_performance}"
+
+
+class VenueWrittenReview(models.Model):
+    date_of_performance = models.DateField(null=True)
+    venue_name = models.CharField(max_length=100, null=True)
+    artist_name = models.CharField(max_length=100, null=True)
+    review = models.TextField(max_length=10000, null=True)
+    rating = models.IntegerField(null=True)
+
+    def __str__(self):
+        return f"{self.venue_name} || {self.artist_name} || {self.date_of_performance}"

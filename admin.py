@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions
+from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview
 
 admin.site.register(Artist)
 admin.site.register(Unavailability)
@@ -8,3 +8,5 @@ admin.site.register(ArtistListedGig)
 admin.site.register(VenueListedGig)
 admin.site.register(NewsletterSignup)
 admin.site.register(MembershipOptions)
+admin.site.register(ArtistWrittenReview)
+admin.site.register(VenueWrittenReview)
