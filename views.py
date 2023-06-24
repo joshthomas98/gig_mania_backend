@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+import requests
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -536,3 +537,66 @@ def venue_written_review_detail(request, id, format=None):
     elif request.method == 'DELETE':
         venue_written_review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Profanity Check View
+
+@csrf_exempt
+def check_profanities(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            # Extract the fields from the JSON data
+            date_of_performance = data.get('date_of_performance')
+            artist_name = data.get('artist_name')
+            venue_name = data.get('venue_name')
+            review_text = data.get('review')
+            rating = data.get('rating')
+
+            # Save the review in the ArtistWrittenReview model
+            review = ArtistWrittenReview(
+                date_of_performance=date_of_performance,
+                artist_name=artist_name,
+                venue_name=venue_name,
+                review=review_text,
+                rating=rating
+            )
+            review.save()
+
+            # Call Perspective API to check for profanities
+            api_key = 'AIzaSyDEIjE6t5zbfmSljgi5jrDRhcfM0yjg-NU'
+            endpoint = 'https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=' + api_key
+
+            perspective_data = {
+                'comment': {
+                    'text': review_text
+                },
+                'requestedAttributes': {
+                    'TOXICITY': {}
+                }
+            }
+
+            response = requests.post(endpoint, json=perspective_data)
+            if response.status_code == 200:
+                perspective_result = response.json()
+                toxicity_score = perspective_result['attributeScores']['TOXICITY']['summaryScore']['value']
+
+                # Update the is_approved field based on profanity check
+                review.is_approved = 'Unapproved' if toxicity_score >= 0.5 else 'Approved'
+                review.save()
+
+                # Serialize the review data
+                serializer = ArtistWrittenReviewSerializer(review)
+
+                # Return the serialized review data as JSON response
+                return JsonResponse(serializer.data)
+
+            else:
+                # Handle the error case appropriately
+                return JsonResponse({'error': 'Error occurred while checking for profanities.'}, status=500)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data.'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method.'})

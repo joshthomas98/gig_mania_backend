@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, ACT_TYPES, ARTIST_TYPES, GIGGING_DISTANCE, USER_TYPES
+from .choices import GENRE_CHOICES, UK_COUNTRY_CHOICES, UK_COUNTY_CHOICES, ACT_TYPES, ARTIST_TYPES, GIGGING_DISTANCE, USER_TYPES, IS_APPROVED_CHOICES
 from multiselectfield import MultiSelectField
 
 
@@ -129,6 +129,8 @@ class ArtistWrittenReview(models.Model):
     venue_name = models.CharField(max_length=100, null=True)
     review = models.TextField(max_length=10000, null=True)
     rating = models.IntegerField(null=True)
+    is_approved = models.CharField(
+        choices=IS_APPROVED_CHOICES, default='Under review', max_length=100, null=True)
 
     def __str__(self):
         return f"{self.artist_name} || {self.venue_name} || {self.date_of_performance}"
@@ -140,6 +142,8 @@ class VenueWrittenReview(models.Model):
     artist_name = models.CharField(max_length=100, null=True)
     review = models.TextField(max_length=10000, null=True)
     rating = models.IntegerField(null=True)
+    is_approved = models.CharField(
+        choices=IS_APPROVED_CHOICES, default='Under review', max_length=100, null=True)
 
     def __str__(self):
         return f"{self.venue_name} || {self.artist_name} || {self.date_of_performance}"

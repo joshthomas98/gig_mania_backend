@@ -65,7 +65,7 @@ class ArtistWrittenReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtistWrittenReview
         fields = ['id', 'date_of_performance',
-                  'artist_name', 'venue_name', 'review', 'rating']
+                  'artist_name', 'venue_name', 'review', 'rating', 'is_approved']
 
 
 class VenueWrittenReviewSerializer(serializers.ModelSerializer):
@@ -73,4 +73,4 @@ class VenueWrittenReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = VenueWrittenReview
         fields = ['id', 'date_of_performance',
-                  'venue_name', 'artist_name', 'review', 'rating']
+                  'venue_name', 'artist_name', 'review', 'rating', 'is_approved']

@@ -234,3 +234,9 @@ USER_TYPES = (
     ('Artist', 'Artist'),
     ('Venue', 'Venue'),
 )
+
+IS_APPROVED_CHOICES = (
+    ('Under review', 'Under review'),
+    ('Unapproved', 'Unapproved'),
+    ('Approved', 'Approved'),
+)

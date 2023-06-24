@@ -48,6 +48,8 @@ urlpatterns = [
 
     path('venue_written_reviews/', views.venue_written_review_list),
     path('venue_written_reviews/<int:id>/', views.venue_written_review_detail),
+
+    path('check_profanities/', views.check_profanities),
 ]
 
 if settings.DEBUG:
