@@ -49,7 +49,11 @@ urlpatterns = [
     path('venue_written_reviews/', views.venue_written_review_list),
     path('venue_written_reviews/<int:id>/', views.venue_written_review_detail),
 
-    path('check_profanities/', views.check_profanities),
+    path('artist_written_review_check_profanities/',
+         views.artist_written_review_check_profanities),
+
+    path('venue_written_review_check_profanities/',
+         views.venue_written_review_check_profanities),
 ]
 
 if settings.DEBUG:
