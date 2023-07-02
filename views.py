@@ -663,3 +663,21 @@ def venue_written_review_check_profanities(request):
             return JsonResponse({'error': 'Invalid JSON data.'}, status=400)
 
     return JsonResponse({'error': 'Invalid request method.'})
+
+
+# SEARCH BAR PROFILE SEARCH
+
+@api_view(['GET'])
+def search_bar_artists(request):
+    query = request.GET.get('q', '')
+    artists = Artist.objects.filter(artist_name__icontains=query)
+    serializer = ArtistSerializer(artists, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def search_bar_venues(request):
+    query = request.GET.get('q', '')
+    venues = Venue.objects.filter(venue_name__icontains=query)
+    serializer = VenueSerializer(venues, many=True)
+    return Response(serializer.data)

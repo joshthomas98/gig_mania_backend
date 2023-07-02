@@ -54,6 +54,9 @@ urlpatterns = [
 
     path('venue_written_review_check_profanities/',
          views.venue_written_review_check_profanities),
+
+    path('artists/search/', views.search_bar_artists),
+    path('venues/search/', views.search_bar_venues),
 ]
 
 if settings.DEBUG:
