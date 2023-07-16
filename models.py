@@ -92,6 +92,8 @@ class VenueListedGig(models.Model):
     genre_of_gig = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True)
     type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
+    artist_type = models.CharField(
+        max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
     user_type = models.CharField(
         max_length=50, choices=USER_TYPES, null=True)
@@ -147,3 +149,11 @@ class VenueWrittenReview(models.Model):
 
     def __str__(self):
         return f"{self.venue_name} || {self.artist_name} || {self.date_of_performance}"
+
+
+class GigApplication(models.Model):
+    artist_name = models.CharField(max_length=100, null=True)
+    email = models.EmailField(max_length=200)
+
+    def __str__(self):
+        return f"{self.artist_name} || {self.artist_name}"

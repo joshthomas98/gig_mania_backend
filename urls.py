@@ -57,6 +57,9 @@ urlpatterns = [
 
     path('artists/search/', views.search_bar_artists),
     path('venues/search/', views.search_bar_venues),
+
+    path('gigapplications/', views.gig_application_list),
+    path('gigapplications/<int:id>/', views.gig_application_detail),
 ]
 
 if settings.DEBUG:
