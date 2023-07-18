@@ -64,7 +64,7 @@ class Venue(models.Model):
 
 
 class ArtistListedGig(models.Model):
-    artist_name = models.CharField(max_length=100)
+    artist_name = models.CharField(max_length=100, null=True)
     date_of_gig = models.DateField(null=True)
     venue_name = models.CharField(max_length=100)
     country_of_venue = models.CharField(
@@ -85,10 +85,10 @@ class ArtistListedGig(models.Model):
 
 
 class VenueListedGig(models.Model):
-    venue_name = models.CharField(max_length=100)
+    venue_name = models.CharField(max_length=100, null=True)
     date_of_gig = models.DateField(null=True)
     country_of_venue = models.CharField(
-        max_length=100, choices=UK_COUNTRY_CHOICES)
+        max_length=100, choices=UK_COUNTRY_CHOICES, null=True)
     genre_of_gig = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True)
     type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
