@@ -26,6 +26,11 @@ urlpatterns = [
     path('venue_listed_gigs/', views.venue_listed_gig_list),
     path('venue_listed_gigs/<int:id>/', views.venue_listed_gig_detail),
 
+    path('artists/<int:artist_id>/listed_gigs/',
+         views.artist_listed_gigs_by_artist),
+    path('venues/<int:venue_id>/listed_gigs/',
+         views.venue_listed_gigs_by_venue),
+
     path('artist_search/', views.artist_search),
 
     path('newslettersignups/', views.newsletter_signup_list),

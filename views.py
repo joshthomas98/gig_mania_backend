@@ -216,6 +216,16 @@ def artist_listed_gig_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Artist Listed Gigs By Artist View
+
+@api_view(['GET'])
+def artist_listed_gigs_by_artist(request, artist_id, format=None):
+    artist = get_object_or_404(Artist, id=artist_id)
+    artist_listed_gigs = artist.artist_listed_gigs.all()
+    serializer = ArtistListedGigSerializer(artist_listed_gigs, many=True)
+    return Response(serializer.data)
+
+
 # VenueListedGig VIEW
 
 @api_view(['GET', 'POST'])
@@ -259,6 +269,16 @@ def venue_listed_gig_detail(request, id, format=None):
     elif request.method == 'DELETE':
         venue_listed_gig.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Venue Listed Gigs By Venue View
+
+@api_view(['GET'])
+def venue_listed_gigs_by_venue(request, venue_id, format=None):
+    venue = get_object_or_404(Venue, id=venue_id)
+    venue_listed_gigs = venue.venue_listed_gigs.all()
+    serializer = VenueListedGigSerializer(venue_listed_gigs, many=True)
+    return Response(serializer.data)
 
 
 # SEARCH FOR ARTISTS VIEW

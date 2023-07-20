@@ -30,6 +30,7 @@ class VenueSerializer(serializers.ModelSerializer):
 
 
 class ArtistListedGigSerializer(serializers.ModelSerializer):
+    artist_name = serializers.CharField(source='artist.artist_name')
 
     class Meta:
         model = ArtistListedGig
@@ -38,10 +39,11 @@ class ArtistListedGigSerializer(serializers.ModelSerializer):
 
 
 class VenueListedGigSerializer(serializers.ModelSerializer):
+    venue = serializers.CharField(source='venue.venue_name')
 
     class Meta:
         model = VenueListedGig
-        fields = ['id', 'venue_name', 'date_of_gig',
+        fields = ['id', 'venue', 'date_of_gig',
                   'country_of_venue', 'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
 
 

@@ -64,7 +64,8 @@ class Venue(models.Model):
 
 
 class ArtistListedGig(models.Model):
-    artist_name = models.CharField(max_length=100, null=True)
+    artist = models.ForeignKey(
+        Artist, on_delete=models.CASCADE, related_name='artist_listed_gigs', null=True)
     date_of_gig = models.DateField(null=True)
     venue_name = models.CharField(max_length=100)
     country_of_venue = models.CharField(
@@ -75,17 +76,17 @@ class ArtistListedGig(models.Model):
     artist_type = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
-    user_type = models.CharField(
-        max_length=50, choices=USER_TYPES, null=True)
+    user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
             '%d %b %Y') if self.date_of_gig else ''
-        return f"{self.artist_name} - {self.venue_name} - {date_str}"
+        return f"{self.artist} - {self.venue_name} - {date_str}"
 
 
 class VenueListedGig(models.Model):
-    venue_name = models.CharField(max_length=100, null=True)
+    venue = models.ForeignKey(
+        Venue, on_delete=models.CASCADE, related_name='venue_listed_gigs', null=True)
     date_of_gig = models.DateField(null=True)
     country_of_venue = models.CharField(
         max_length=100, choices=UK_COUNTRY_CHOICES, null=True)
@@ -101,7 +102,7 @@ class VenueListedGig(models.Model):
     def __str__(self):
         date_str = self.date_of_gig.strftime(
             '%d %b %Y') if self.date_of_gig else ''
-        return f"{self.venue_name} - {date_str}"
+        return f"{self.venue} - {date_str}"
 
 
 class NewsletterSignup(models.Model):
