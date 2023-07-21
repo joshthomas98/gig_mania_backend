@@ -30,7 +30,8 @@ class VenueSerializer(serializers.ModelSerializer):
 
 
 class ArtistListedGigSerializer(serializers.ModelSerializer):
-    artist_name = serializers.CharField(source='artist.artist_name')
+    artist_name = serializers.CharField(
+        source='artist.artist_name', read_only=True)
 
     class Meta:
         model = ArtistListedGig
