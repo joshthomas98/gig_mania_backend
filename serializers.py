@@ -40,12 +40,12 @@ class ArtistListedGigSerializer(serializers.ModelSerializer):
 
 
 class VenueListedGigSerializer(serializers.ModelSerializer):
-    venue = serializers.CharField(source='venue.venue_name')
+    venue = serializers.CharField(source='venue.venue_name', read_only=True)
 
     class Meta:
         model = VenueListedGig
-        fields = ['id', 'venue', 'date_of_gig',
-                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
+        fields = ['id', 'venue', 'date_of_gig', 'country_of_venue',
+                  'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
 
 
 class NewsletterSignupSerializer(serializers.ModelSerializer):
