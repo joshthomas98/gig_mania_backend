@@ -17,6 +17,7 @@ class Artist(models.Model):
         max_length=100, choices=UK_COUNTY_CHOICES, null=True)
     type_of_artist = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
+    user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)
     image = models.ImageField(
         upload_to='user_profile_images/artist_profile_images/', null=True, blank=True)
     featured_artist = models.BooleanField(default=False)
@@ -54,6 +55,7 @@ class Venue(models.Model):
         upload_to='user_profile_images/venue_profile_images/', null=True, blank=True)
     type_of_act = models.CharField(
         max_length=100, choices=ACT_TYPES, null=True)
+    user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)
     facebook = models.CharField(max_length=5000, null=True, blank=True)
     twitter = models.CharField(max_length=5000, null=True, blank=True)
     youtube = models.CharField(max_length=5000, null=True, blank=True)
@@ -73,7 +75,7 @@ class ArtistListedGig(models.Model):
     genre_of_gig = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True)
     type_of_gig = models.CharField(max_length=50, choices=ACT_TYPES, null=True)
-    artist_type = models.CharField(
+    type_of_artist = models.CharField(
         max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
     user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)

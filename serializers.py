@@ -11,7 +11,7 @@ class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ['id', 'artist_name', 'email', 'password', 'phone_number', 'bio', 'summary', 'genre',
-                  'country', 'county', 'type_of_artist', 'image', 'featured_artist', 'facebook', 'twitter', 'youtube', 'artist_membership_type', 'gigging_distance']
+                  'country', 'county', 'type_of_artist', 'user_type', 'image', 'featured_artist', 'facebook', 'twitter', 'youtube', 'artist_membership_type', 'gigging_distance']
 
 
 class UnavailabilitySerializer(serializers.ModelSerializer):
@@ -26,25 +26,40 @@ class VenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venue
         fields = ['id', 'venue_name', 'email', 'password', 'phone_number', 'bio',
-                  'country', 'county', 'image', 'type_of_act', 'facebook', 'twitter', 'youtube', 'venue_membership_type']
+                  'country', 'county', 'image', 'type_of_act', 'user_type', 'facebook', 'twitter', 'youtube', 'venue_membership_type']
 
 
-class ArtistListedGigSerializer(serializers.ModelSerializer):
+class ArtistListedGigCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArtistListedGig
+        fields = ['id', 'artist', 'date_of_gig', 'venue_name',
+                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'type_of_artist', 'payment', 'user_type']
+
+
+class ArtistListedGigEditSerializer(serializers.ModelSerializer):
     artist_name = serializers.CharField(
         source='artist.artist_name', read_only=True)
 
     class Meta:
         model = ArtistListedGig
         fields = ['id', 'artist_name', 'date_of_gig', 'venue_name',
-                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
+                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'type_of_artist', 'payment', 'user_type']
 
 
-class VenueListedGigSerializer(serializers.ModelSerializer):
-    venue = serializers.CharField(source='venue.venue_name', read_only=True)
+class VenueListedGigCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VenueListedGig
+        fields = ['id', 'venue_name', 'date_of_gig', 'country_of_venue',
+                  'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
+
+
+class VenueListedGigEditSerializer(serializers.ModelSerializer):
+    venue_name = serializers.CharField(
+        source='venue.venue_name', read_only=True)
 
     class Meta:
         model = VenueListedGig
-        fields = ['id', 'venue', 'date_of_gig', 'country_of_venue',
+        fields = ['id', 'venue_name', 'date_of_gig', 'country_of_venue',
                   'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
 
 
