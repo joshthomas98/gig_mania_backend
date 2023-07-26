@@ -49,7 +49,7 @@ class ArtistListedGigEditSerializer(serializers.ModelSerializer):
 class VenueListedGigCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = VenueListedGig
-        fields = ['id', 'venue_name', 'date_of_gig', 'country_of_venue',
+        fields = ['id', 'venue', 'date_of_gig', 'country_of_venue',
                   'genre_of_gig', 'type_of_gig', 'artist_type', 'payment', 'user_type']
 
 
