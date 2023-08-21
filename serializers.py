@@ -98,4 +98,4 @@ class GigApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GigApplication
-        fields = ['id', 'artist_name', 'email']
+        fields = ['id', 'artist_name', 'venue_name', 'date_of_gig', 'email']
