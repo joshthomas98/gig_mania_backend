@@ -46,6 +46,7 @@ class Venue(models.Model):
     email = models.EmailField(max_length=200)
     password = models.CharField(max_length=128)
     phone_number = models.CharField(max_length=20, null=True)
+    address = models.CharField(max_length=1000, null=True)
     bio = models.CharField(max_length=5000, null=True)
     country = models.CharField(
         max_length=50, choices=UK_COUNTRY_CHOICES, null=True)
