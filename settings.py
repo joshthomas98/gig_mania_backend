@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*3$vgjb%i&+8h$e)8p708dvf06ex)u@lhhat#72&0_&kvk4j!y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -133,13 +133,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 MEDIA_ROOT = '/Users/joshthomas/Documents/gig_mania_backend/gig_mania_backend/'
 
