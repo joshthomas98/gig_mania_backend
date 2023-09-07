@@ -156,10 +156,11 @@ class VenueWrittenReview(models.Model):
 
 
 class GigApplication(models.Model):
-    artist_name = models.CharField(max_length=100, null=True)
-    venue_name = models.CharField(max_length=100, null=True)
+    artist = models.ForeignKey(
+        Artist, on_delete=models.CASCADE, null=True)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True)
     date_of_gig = models.DateField(null=True)
     email = models.EmailField(max_length=200)
 
     def __str__(self):
-        return f"{self.artist_name} | applied to play at | {self.venue_name} | date of gig: {self.date_of_gig}"
+        return f"{self.artist} | applied to play at | {self.venue} | date of gig: {self.date_of_gig}"
