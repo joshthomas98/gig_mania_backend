@@ -9,6 +9,7 @@ from rest_framework import status
 from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview, GigApplication
 from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigCreateSerializer, ArtistListedGigEditSerializer, VenueListedGigCreateSerializer, VenueListedGigEditSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer, ArtistWrittenReviewSerializer, VenueWrittenReviewSerializer, GigApplicationSerializer
 from django.db.models import Q
+from django.utils import timezone
 import json
 
 
@@ -64,6 +65,11 @@ def unavailability_list(request, format=None):
     if request.method == 'GET':
         unavailabilities = Unavailability.objects.all()
         serializer = UnavailabilitySerializer(unavailabilities, many=True)
+
+        # Convert dates to the desired timezone
+        for item in serializer.data:
+            item['date'] = timezone.localtime(item['date']).date()
+
         return Response(serializer.data)
 
     elif request.method == 'POST':
