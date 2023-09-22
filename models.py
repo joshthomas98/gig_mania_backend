@@ -158,7 +158,7 @@ class VenueWrittenReview(models.Model):
 class GigApplication(models.Model):
     artist = models.ForeignKey(
         Artist, on_delete=models.CASCADE, null=True)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True)
+    venue = models.CharField(max_length=100, null=True)
     date_of_gig = models.DateField(null=True)
     email = models.EmailField(max_length=200)
 
