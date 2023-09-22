@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django import forms
-from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview, GigApplication
+from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview, ArtistGigApplication, VenueGigApplication
 from .choices import UK_COUNTY_CHOICES
 
 
@@ -33,7 +33,7 @@ class ArtistListedGigCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtistListedGig
         fields = ['id', 'artist', 'date_of_gig', 'venue_name',
-                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'type_of_artist', 'payment', 'user_type']
+                  'country_of_venue', 'genre_of_gig', 'type_of_gig', 'type_of_artist', 'payment', 'user_type', 'num_applications']
 
 
 class ArtistListedGigEditSerializer(serializers.ModelSerializer):
@@ -94,8 +94,22 @@ class VenueWrittenReviewSerializer(serializers.ModelSerializer):
                   'venue_name', 'artist_name', 'review', 'rating', 'is_approved']
 
 
-class GigApplicationSerializer(serializers.ModelSerializer):
+# class GigApplicationSerializer(serializers.ModelSerializer):
+
+ #   class Meta:
+  #      model = GigApplication
+   #     fields = ['id', 'artist', 'venue', 'date_of_gig', 'email']
+
+
+class ArtistGigApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = GigApplication
-        fields = ['id', 'artist', 'venue', 'date_of_gig', 'email']
+        model = ArtistGigApplication
+        fields = ['id', 'artist', 'artist_gig']
+
+
+class VenueGigApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VenueGigApplication
+        fields = ['id', 'artist', 'venue_gig']

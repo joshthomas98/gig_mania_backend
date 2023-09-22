@@ -63,8 +63,12 @@ urlpatterns = [
     path('artists/search/', views.search_bar_artists),
     path('venues/search/', views.search_bar_venues),
 
-    path('gigapplications/', views.gig_application_list),
-    path('gigapplications/<int:id>/', views.gig_application_detail),
+    path('artistgigapplications/', views.artist_gig_application_list),
+    path('artistgigapplications/<int:id>/',
+         views.artist_gig_application_detail),
+
+    path('venuegigapplications/', views.venue_gig_application_list),
+    path('venuegigapplications/<int:id>/', views.venue_gig_application_detail),
 ]
 
 if settings.DEBUG:

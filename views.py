@@ -6,8 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview, GigApplication
-from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigCreateSerializer, ArtistListedGigEditSerializer, VenueListedGigCreateSerializer, VenueListedGigEditSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer, ArtistWrittenReviewSerializer, VenueWrittenReviewSerializer, GigApplicationSerializer
+from .models import Artist, Unavailability, Venue, ArtistListedGig, VenueListedGig, NewsletterSignup, MembershipOptions, ArtistWrittenReview, VenueWrittenReview, ArtistGigApplication, VenueGigApplication
+from .serializers import ArtistSerializer, UnavailabilitySerializer, VenueSerializer, ArtistListedGigCreateSerializer, ArtistListedGigEditSerializer, VenueListedGigCreateSerializer, VenueListedGigEditSerializer, NewsletterSignupSerializer, MembershipOptionsSerializer, ArtistWrittenReviewSerializer, VenueWrittenReviewSerializer, ArtistGigApplicationSerializer, VenueGigApplicationSerializer
 from django.db.models import Q
 from django.utils import timezone
 import json
@@ -205,6 +205,7 @@ def artist_listed_gig_detail(request, id, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -691,18 +692,19 @@ def search_bar_venues(request):
     return Response(serializer.data)
 
 
-# Gig Application View
+# Artist Gig Application View
 
 @api_view(['GET', 'POST'])
-def gig_application_list(request, format=None):
+def artist_gig_application_list(request, format=None):
 
     if request.method == 'GET':
-        gig_applications = GigApplication.objects.all()
-        serializer = GigApplicationSerializer(gig_applications, many=True)
+        artist_gig_applications = ArtistGigApplication.objects.all()
+        serializer = ArtistGigApplicationSerializer(
+            artist_gig_applications, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = GigApplicationSerializer(data=request.data)
+        serializer = ArtistGigApplicationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -711,20 +713,20 @@ def gig_application_list(request, format=None):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def gig_application_detail(request, id, format=None):
+def artist_gig_application_detail(request, id, format=None):
 
     try:
-        gig_application = GigApplication.objects.get(pk=id)
-    except GigApplication.DoesNotExist:
+        artist_gig_application = ArtistGigApplication.objects.get(pk=id)
+    except ArtistGigApplication.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = GigApplicationSerializer(gig_application)
+        serializer = ArtistGigApplicationSerializer(artist_gig_application)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = GigApplicationSerializer(
-            gig_application, data=request.data)
+        serializer = ArtistGigApplicationSerializer(
+            artist_gig_application, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -732,5 +734,51 @@ def gig_application_detail(request, id, format=None):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        gig_application.delete()
+        artist_gig_application.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Venue Gig Application View
+
+@api_view(['GET', 'POST'])
+def venue_gig_application_list(request, format=None):
+
+    if request.method == 'GET':
+        venue_gig_applications = VenueGigApplication.objects.all()
+        serializer = VenueGigApplicationSerializer(
+            venue_gig_applications, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = VenueGigApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def venue_gig_application_detail(request, id, format=None):
+
+    try:
+        venue_gig_application = VenueGigApplication.objects.get(pk=id)
+    except VenueGigApplication.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = VenueGigApplicationSerializer(venue_gig_application)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = VenueGigApplicationSerializer(
+            venue_gig_application, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        venue_gig_application.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

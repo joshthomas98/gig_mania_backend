@@ -80,6 +80,7 @@ class ArtistListedGig(models.Model):
         max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
     user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)
+    num_applications = models.IntegerField(null=True)
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
@@ -155,12 +156,25 @@ class VenueWrittenReview(models.Model):
         return f"{self.venue_name} || {self.artist_name} || {self.date_of_performance}"
 
 
-class GigApplication(models.Model):
+# Model only for artist listed gig applications
+class ArtistGigApplication(models.Model):
     artist = models.ForeignKey(
         Artist, on_delete=models.CASCADE, null=True)
-    venue = models.CharField(max_length=100, null=True)
-    date_of_gig = models.DateField(null=True)
-    email = models.EmailField(max_length=200)
+
+    artist_gig = models.ForeignKey(
+        ArtistListedGig, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{self.artist} | applied to play at | {self.venue} | date of gig: {self.date_of_gig}"
+        return f"{self.artist} applied for {self.artist_gig}"
+
+
+# Model only for venue listed gig applications
+class VenueGigApplication(models.Model):
+    artist = models.ForeignKey(
+        Artist, on_delete=models.CASCADE, null=True)
+
+    venue_gig = models.ForeignKey(
+        VenueListedGig, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.artist} applied for {self.venue_gig}"
