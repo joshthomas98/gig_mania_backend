@@ -694,19 +694,16 @@ def search_bar_venues(request):
 
 # Artist Gig Application View
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def artist_gig_application_list(request, format=None):
-
-    if request.method == 'GET':
-        artist_gig_applications = ArtistGigApplication.objects.all()
-        serializer = ArtistGigApplicationSerializer(
-            artist_gig_applications, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         serializer = ArtistGigApplicationSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            # Ensure that the artist_gig field is set to the corresponding gig
+            # Assuming you send the gig_id in the request data
+            gig_id = request.data.get('artist_gig')
+            artist_gig = get_object_or_404(ArtistListedGig, id=gig_id)
+            serializer.save(artist_gig=artist_gig)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -740,19 +737,16 @@ def artist_gig_application_detail(request, id, format=None):
 
 # Venue Gig Application View
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def venue_gig_application_list(request, format=None):
-
-    if request.method == 'GET':
-        venue_gig_applications = VenueGigApplication.objects.all()
-        serializer = VenueGigApplicationSerializer(
-            venue_gig_applications, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         serializer = VenueGigApplicationSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            # Ensure that the venue_gig field is set to the corresponding gig
+            # Assuming you send the gig_id in the request data
+            gig_id = request.data.get('venue_gig')
+            venue_gig = get_object_or_404(VenueListedGig, id=gig_id)
+            serializer.save(venue_gig=venue_gig)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

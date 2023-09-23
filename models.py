@@ -80,7 +80,10 @@ class ArtistListedGig(models.Model):
         max_length=50, choices=ARTIST_TYPES, null=True)
     payment = models.IntegerField(null=True)
     user_type = models.CharField(max_length=50, choices=USER_TYPES, null=True)
-    num_applications = models.IntegerField(null=True)
+    num_applications = models.PositiveIntegerField(default=0)
+
+    def update_num_applications(self):
+        self.num_applications = self.artists.count()
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
@@ -102,6 +105,15 @@ class VenueListedGig(models.Model):
     payment = models.IntegerField(null=True)
     user_type = models.CharField(
         max_length=50, choices=USER_TYPES, null=True)
+    num_applications = models.PositiveIntegerField(default=0)
+
+    def increment_num_applications(self):
+        self.num_applications += 1
+        self.save()
+
+    def decrement_num_applications(self):
+        self.num_applications -= 1
+        self.save()
 
     def __str__(self):
         date_str = self.date_of_gig.strftime(
@@ -158,11 +170,19 @@ class VenueWrittenReview(models.Model):
 
 # Model only for artist listed gig applications
 class ArtistGigApplication(models.Model):
-    artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE, null=True)
-
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     artist_gig = models.ForeignKey(
-        ArtistListedGig, on_delete=models.CASCADE, null=True)
+        ArtistListedGig, on_delete=models.CASCADE, null=True, related_name='artists')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.artist_gig.update_num_applications()
+        self.artist_gig.save()
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.artist_gig.update_num_applications()
+        self.artist_gig.save()
 
     def __str__(self):
         return f"{self.artist} applied for {self.artist_gig}"
@@ -170,11 +190,19 @@ class ArtistGigApplication(models.Model):
 
 # Model only for venue listed gig applications
 class VenueGigApplication(models.Model):
-    artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE, null=True)
-
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     venue_gig = models.ForeignKey(
         VenueListedGig, on_delete=models.CASCADE, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # New application is being created
+            self.venue_gig.increment_num_applications()
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.venue_gig.decrement_num_applications()
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.artist} applied for {self.venue_gig}"
