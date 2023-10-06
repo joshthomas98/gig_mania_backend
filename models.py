@@ -36,6 +36,8 @@ class Unavailability(models.Model):
     artist = models.ForeignKey(
         Artist, on_delete=models.CASCADE, related_name='unavailabilities')
     date = models.DateField()
+    status = models.CharField(max_length=50, default="Unavailable", null=True)
+    reason = models.CharField(max_length=300, null=True)
 
     def __str__(self):
         return f"{self.artist} - {self.date}"

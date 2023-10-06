@@ -18,7 +18,7 @@ class UnavailabilitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Unavailability
-        fields = ['id', 'artist', 'date']
+        fields = ['id', 'artist', 'date', 'status', 'reason']
 
 
 class VenueSerializer(serializers.ModelSerializer):
