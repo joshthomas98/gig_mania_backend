@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,3 +141,11 @@ MEDIA_ROOT = '/Users/joshthomas/Documents/gig_mania_backend/gig_mania_backend/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Determine the environment: 'development' or 'production'
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
+
+if ENVIRONMENT == 'production':
+    from .settings_prod import *
+else:
+    from .settings_dev import *
